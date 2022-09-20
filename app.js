@@ -31,12 +31,35 @@ const TourSchema = mongoose.Schema({
 //MODEL
 const TourModel = mongoose.model('Tour',TourSchema);
 
+//product middleware
+TourSchema.pre('save', function(next){
+  console.log('before saving data');
+  next();
+});
+
+TourSchema.post('save', function(doc, next){
+  console.log('after saving data');
+  next();
+});
+
 //Data Save from Database
-app.post('/api/v1/tour', (req, res, next) => {
-  //model instance
-  const tour = new TourModel(req.body);
-  //data save from database
-  tour.save();
+app.post('/api/v1/tour', async(req, res, next) => {
+  try{
+    //model instance
+    const tour = new TourModel(req.body);
+    //data save from database
+    await tour.save();
+    res.send(200).json({
+      status: 'successful',
+      massage: 'Data Inserted successful!'
+    });
+  }catch(error){
+    res.send(400).json({
+      status: 'failed',
+      massage: 'Data Inserted UnSuccessful!',
+      error: error.massage
+    });
+  }
 })
 
 //Test Routes
