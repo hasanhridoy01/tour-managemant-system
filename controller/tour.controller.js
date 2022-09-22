@@ -101,7 +101,7 @@ exports.deleteTourById = async(req, res, next) => {
     const Tour = await TourModel.deleteOne({ _id: id });
     res.status(200).json({
       status: 'successful',
-      massage: 'Data Delete successful!',
+      massage: 'Data Deleted successful!',
       data: Tour,
     });
   }catch(error){
