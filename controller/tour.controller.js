@@ -72,3 +72,43 @@ exports.getTourById = async(req, res, next) => {
     });
   }
 };
+
+//update product by using id
+exports.updateTourById = async(req, res, next) => {
+  try{
+    const id = req.params.id;
+    const Tour = await TourModel.updateOne({ _id: id }, { $set: req.body }, {
+      runValidators: true,
+    });
+    res.status(200).json({
+      status: 'successful',
+      massage: 'Data Updated successful!',
+      data: Tour,
+    });
+  }catch(error){
+    res.status(400).json({
+      status: 'failed',
+      massage: 'Data Updated UnSuccessful!',
+      error: error.massage
+    });
+  }
+};
+
+//delete a tour data from Database
+exports.deleteTourById = async(req, res, next) => {
+  try{
+    const id = req.params.id;
+    const Tour = await TourModel.deleteOne({ _id: id });
+    res.status(200).json({
+      status: 'successful',
+      massage: 'Data Delete successful!',
+      data: Tour,
+    });
+  }catch(error){
+    res.status(400).json({
+      status: 'failed',
+      massage: 'Data Deleted UnSuccessful!',
+      error: error.massage
+    });
+  }
+}
